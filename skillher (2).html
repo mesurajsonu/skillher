@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillHer – Work From Home, From Bihar</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Noto+Sans+Devanagari:wght@400;700&family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+
+/* ── TOKENS ─────────────────────────────── */
+:root {
+  --saffron: #FF6B35;
+  --rose:    #E63462;
+  --gold:    #F4C430;
+  --cream:   #FFF8F0;
+  --deep:    #1A0A2E;
+  --purple:  #6B21A8;
+  --chat-bg: #F0E6FF;
+  --pad:     20px;
+  --radius:  20px;
+}
+
+/* ── RESET ──────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--deep);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── CONTAINER ──────────────────────────── */
+.wrap {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+/* ════════════════════════════════════════
+   HEADER
+════════════════════════════════════════ */
+header {
+  background: var(--deep);
+  position: sticky; top: 0; z-index: 200;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 14px;
+}
+.logo {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  color: var(--gold);
+  line-height: 1;
+}
+.logo em { color: var(--rose); font-style: normal; }
+.logo small {
+  display: block;
+  font-size: 0.52rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  margin-top: 3px;
+}
+/* nav links hidden on mobile, shown ≥640px */
+.nav-links { display: none; gap: 28px; align-items: center; }
+.nav-links a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links .nav-cta {
+  background: var(--rose);
+  color: #fff !important;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 700 !important;
+  transition: background .2s;
+}
+.nav-links .nav-cta:hover { background: #c42855; }
+.nav-emoji { font-size: 1.4rem; }
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+.hero {
+  padding-block: clamp(40px, 8vw, 90px);
+  background:
+    radial-gradient(ellipse 60% 50% at 95% 5%,  rgba(107,33,168,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 5%  95%, rgba(230,52,98,.07)  0%, transparent 60%),
+    var(--cream);
+}
+/* single column → two column at ≥960 */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* -- copy side -- */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 18px;
+  opacity: 0;
+  animation: fadeUp .5s .1s forwards;
+}
+.hero-eyebrow span { width: 24px; height: 2px; background: var(--purple); border-radius: 2px; }
+
+.hero-headline {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp .6s .2s forwards;
+}
+.hero-headline em { color: var(--rose); font-style: normal; display: block; }
+
+.hero-sub {
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  color: #555;
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp .6s .35s forwards;
+}
+
+.hero-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  opacity: 0;
+  animation: fadeUp .6s .5s forwards;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--rose); color: #fff;
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: clamp(.9rem, 2vw, 1rem);
+  padding: 14px 26px; border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(230,52,98,.35);
+  transition: all .25s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(230,52,98,.45); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 2px solid var(--deep); color: var(--deep);
+  font-weight: 700; font-size: .9rem;
+  padding: 13px 22px; border-radius: 50px;
+  text-decoration: none; transition: all .25s;
+}
+.btn-ghost:hover { background: var(--deep); color: #fff; }
+
+/* -- chat side -- */
+.hero-chat {
+  opacity: 0;
+  animation: fadeUp .7s .4s forwards;
+}
+.chat-label {
+  font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--purple);
+  font-weight: 600; margin-bottom: 12px; text-align: center;
+}
+.chat-window {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: clamp(18px, 5vw, 28px);
+  box-shadow: 0 16px 60px rgba(26,10,46,.1), 0 4px 16px rgba(26,10,46,.06);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.chat-chrome {
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.cc-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--rose));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.cc-name { font-weight: 700; font-size: .83rem; }
+.cc-status { font-size: .68rem; color: #4CAF50; }
+.cc-dots { margin-left: auto; color: #ccc; letter-spacing: 2px; font-size: 1rem; }
+
+.bubble-wrap { display: flex; align-items: flex-end; gap: 8px; }
+.bubble-wrap.them { justify-content: flex-start; }
+.bubble-wrap.us   { justify-content: flex-end; }
+.av {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #f0e0ff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; flex-shrink: 0;
+}
+.bubble {
+  max-width: 80%;
+  padding: 12px 15px; border-radius: 18px;
+  font-size: clamp(.82rem, 2vw, .9rem);
+  line-height: 1.55;
+  font-family: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
+}
+.bubble-wrap.them .bubble {
+  background: var(--chat-bg);
+  border-bottom-left-radius: 4px;
+  color: #2D1053;
+}
+.bubble-wrap.us .bubble {
+  background: linear-gradient(135deg, var(--rose), #9C27B0);
+  border-bottom-right-radius: 4px;
+  color: #fff;
+}
+.bubble .ts {
+  display: block; font-size: .6rem;
+  margin-top: 5px; opacity: .5;
+  font-family: 'DM Sans', sans-serif;
+}
+.bubble-wrap.us .ts { text-align: right; }
+.chat-prompt { text-align: center; font-size: .73rem; color: #888; font-style: italic; }
+.answer-row { display: flex; }
+.answer-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--deep);
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: .9rem; padding: 9px 20px; border-radius: 50px;
+  box-shadow: 0 4px 16px rgba(244,196,48,.4);
+}
+
+/* ════════════════════════════════════════
+   SHARED SECTION HEADER
+════════════════════════════════════════ */
+section { padding-block: clamp(48px, 9vw, 100px); }
+.s-label {
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 8px;
+}
+.s-heading {
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  line-height: 1.1; letter-spacing: -.5px;
+  color: var(--deep); margin-bottom: 14px;
+}
+.s-sub {
+  font-size: clamp(.88rem, 2vw, 1rem);
+  color: #666; line-height: 1.7; max-width: 560px;
+}
+.accent-line {
+  display: inline-block; position: relative;
+}
+.accent-line::after {
+  content: ''; position: absolute;
+  bottom: 2px; left: 0; width: 100%; height: 5px;
+  background: var(--gold); border-radius: 3px; z-index: -1;
+}
+
+/* ════════════════════════════════════════
+   MISSION
+════════════════════════════════════════ */
+.mission-section {
+  background: linear-gradient(135deg, var(--deep) 0%, #3A0068 100%);
+  padding-block: clamp(48px, 9vw, 100px);
+}
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+  align-items: center;
+}
+.mission-stat { text-align: center; }
+.stat-num {
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: clamp(4rem, 14vw, 8rem);
+  color: var(--gold); line-height: 1; letter-spacing: -3px;
+}
+.stat-sub {
+  font-size: clamp(.88rem, 2vw, 1.05rem);
+  color: rgba(255,255,255,.75); margin-top: 10px; line-height: 1.55;
+}
+.stat-sub strong { color: #fff; }
+.mission-quote {
+  border-left: 4px solid var(--rose);
+  padding: 22px 26px;
+  background: rgba(255,255,255,.05);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.mission-quote p {
+  color: rgba(255,255,255,.9);
+  font-size: clamp(.93rem, 2vw, 1.08rem);
+  line-height: 1.75;
+}
+.mission-quote p strong { color: var(--gold); }
+
+/* ════════════════════════════════════════
+   VALUE PROP
+════════════════════════════════════════ */
+.value-section { background: #fff; }
+.value-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+  align-items: center;
+}
+.value-card {
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: clamp(24px, 5vw, 44px);
+  border-left: 6px solid var(--saffron);
+  position: relative; overflow: hidden;
+}
+.value-card::before {
+  content: '"';
+  font-family: Georgia, serif; font-size: 9rem;
+  color: var(--saffron); opacity: .1;
+  position: absolute; top: -15px; left: 10px;
+  line-height: 1; pointer-events: none;
+}
+.value-card p {
+  font-size: clamp(.95rem, 2.2vw, 1.12rem);
+  line-height: 1.8; color: #333; position: relative;
+}
+.value-card p strong { color: var(--deep); }
+.features { display: flex; flex-direction: column; gap: 20px; }
+.feat {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.feat-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; flex-shrink: 0;
+}
+.fi1 { background: #FFE4E1; }
+.fi2 { background: #E8F4FD; }
+.fi3 { background: #F0FFF4; }
+.feat h4 { font-weight: 700; font-size: .93rem; margin-bottom: 4px; }
+.feat p  { font-size: .82rem; color: #777; line-height: 1.55; }
+
+/* ════════════════════════════════════════
+   JOBS
+════════════════════════════════════════ */
+.jobs-section { background: var(--cream); }
+.jobs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* 2-col on mobile */
+  gap: 10px;
+  margin-top: 36px;
+}
+.job-pill {
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: .83rem; font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  transition: all .22s;
+  cursor: default;
+}
+.job-pill:hover {
+  border-color: var(--rose);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(230,52,98,.13);
+}
+.ji {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.job-pill:nth-child(1)  .ji { background:#FFE4E1 }
+.job-pill:nth-child(2)  .ji { background:#E8F4FD }
+.job-pill:nth-child(3)  .ji { background:#F0FFF0 }
+.job-pill:nth-child(4)  .ji { background:#FFF8DC }
+.job-pill:nth-child(5)  .ji { background:#F5E6FF }
+.job-pill:nth-child(6)  .ji { background:#FFEBF5 }
+.job-pill:nth-child(7)  .ji { background:#E6F7FF }
+.job-pill:nth-child(8)  .ji { background:#FFF0E6 }
+.job-pill:nth-child(9)  .ji { background:#E8FFE8 }
+.job-pill:nth-child(10) .ji { background:#FFE6E6 }
+.job-pill:nth-child(11) .ji { background:#EAF4FF }
+.job-pill:nth-child(12) .ji { background:#FAFFD6 }
+
+/* ════════════════════════════════════════
+   WORKSHOP CTA
+════════════════════════════════════════ */
+.workshop-section { background: #fff; }
+.workshop-card {
+  background: linear-gradient(135deg, var(--rose) 0%, #7B1FA2 100%);
+  border-radius: var(--radius);
+  padding: clamp(32px, 7vw, 72px);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.workshop-card::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border: 90px solid rgba(255,255,255,.04);
+  border-radius: 50%;
+  top: -260px; right: -220px;
+  pointer-events: none;
+}
+.workshop-card::after {
+  content: '';
+  position: absolute;
+  width: 350px; height: 350px;
+  border: 60px solid rgba(255,255,255,.04);
+  border-radius: 50%;
+  bottom: -150px; left: -100px;
+  pointer-events: none;
+}
+.w-badge {
+  display: inline-block;
+  background: var(--gold); color: var(--deep);
+  font-size: .63rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 50px;
+  margin-bottom: 18px;
+}
+.w-title {
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  color: #fff; line-height: 1.15;
+  letter-spacing: -.5px; margin-bottom: 14px;
+}
+.w-sub {
+  font-size: clamp(.88rem, 2vw, 1rem);
+  color: rgba(255,255,255,.8);
+  max-width: 520px; margin-inline: auto;
+  line-height: 1.65; margin-bottom: 32px;
+}
+.w-cta-row {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 14px;
+  position: relative; z-index: 1;
+}
+.btn-workshop {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #fff; color: var(--rose);
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  padding: 16px 38px; border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  transition: all .25s;
+}
+.btn-workshop:hover { transform: scale(1.04) translateY(-2px); box-shadow: 0 16px 48px rgba(0,0,0,.3); }
+.seats-note {
+  display: flex; align-items: center;
+  justify-content: center; gap: 8px;
+  font-size: .76rem; color: rgba(255,255,255,.7);
+}
+.pulse-dot {
+  width: 8px; height: 8px; background: var(--gold);
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer {
+  background: var(--deep);
+  padding-block: clamp(30px, 5vw, 56px);
+}
+.footer-inner {
+  display: flex; flex-direction: column;
+  gap: 20px; align-items: center; text-align: center;
+}
+.footer-logo {
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: 1.6rem; color: var(--gold);
+}
+.footer-logo em { color: var(--rose); font-style: normal; }
+.footer-tag { font-size: .78rem; color: rgba(255,255,255,.4); line-height: 1.6; margin-top: 4px; }
+.footer-div { width: 36px; height: 2px; background: rgba(255,255,255,.1); border-radius: 2px; }
+.footer-copy { font-size: .7rem; color: rgba(255,255,255,.3); }
+
+/* ════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:none; }
+}
+@keyframes pulse {
+  0%,100% { transform:scale(1); opacity:1; }
+  50%      { transform:scale(1.6); opacity:.5; }
+}
+
+/* scroll reveal */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible { opacity:1; transform:none; }
+.d1 { transition-delay:.1s; }
+.d2 { transition-delay:.2s; }
+.d3 { transition-delay:.3s; }
+
+/* ════════════════════════════════════════
+   RESPONSIVE — TABLET ≥640px
+════════════════════════════════════════ */
+@media(min-width:640px){
+  :root { --pad: 32px; }
+
+  .nav-links { display: flex; }
+  .nav-emoji { display: none; }
+
+  .jobs-grid { grid-template-columns: repeat(3,1fr); }
+
+  .w-cta-row { flex-direction: row; justify-content: center; }
+
+  .footer-inner {
+    flex-direction: row; justify-content: space-between;
+    text-align: left; align-items: flex-start;
+  }
+  .footer-div { width: 1px; height: 50px; }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — DESKTOP ≥960px
+════════════════════════════════════════ */
+@media(min-width:960px){
+  :root { --pad: 48px; }
+
+  .hero-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
+
+  .mission-grid { grid-template-columns: 1fr 1.7fr; gap: 72px; }
+  .mission-stat { text-align: left; }
+
+  .value-grid { grid-template-columns: 1.1fr 1fr; gap: 72px; }
+
+  .jobs-grid { grid-template-columns: repeat(4,1fr); gap: 14px; }
+
+  .job-pill { font-size: .87rem; padding: 14px 16px; }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — WIDE ≥1280px
+════════════════════════════════════════ */
+@media(min-width:1280px){
+  :root { --pad: 64px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ═══════════════════════════════════ -->
+<header>
+  <div class="wrap nav-inner">
+    <div class="logo">Skill<em>Her</em><small>Bihar's WFH Movement</small></div>
+    <nav class="nav-links">
+      <a href="#mission">Mission</a>
+      <a href="#jobs">Careers</a>
+      <a href="#workshop" class="nav-cta">Join Workshop →</a>
+    </nav>
+    <div class="nav-emoji" aria-hidden="true">👩‍💻</div>
+  </div>
+</header>
+
+<!-- ══ HERO ══════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+
+    <!-- copy -->
+    <div class="hero-copy">
+      <h1 class="hero-headline">Seekho aisa skill,<br><em>jisse ghar se kamai ho.</em></h1>
+      <p class="hero-sub">We're on a mission to include <strong>1 million girls from Bihar</strong> in the organised workforce — right from the comfort of their homes.</p>
+      <div class="hero-btns">
+        <a href="#workshop" class="btn-primary">🚀 Join Free Workshop</a>
+        <a href="#jobs" class="btn-ghost">See WFH Jobs ↓</a>
+      </div>
+    </div>
+
+    <!-- chat -->
+    <div class="hero-chat">
+      <p class="chat-label">💬 Two statements. One choice.</p>
+      <div class="chat-window">
+
+        <div class="chat-chrome">
+          <div class="cc-avatar">🏡</div>
+          <div>
+            <div class="cc-name">SkillHer</div>
+            <div class="cc-status">● Online</div>
+          </div>
+          <div class="cc-dots">···</div>
+        </div>
+
+        <div class="bubble-wrap them">
+          <div class="av">👴</div>
+          <div class="bubble">
+            "Beti hai, ghar par hi rahegi, thode na ise doctor, engineer banana hai jo bahar bheju padhane ke liye."
+            <span class="ts">Aaj bhi kuch ghar mein 😔 · 10:14 am</span>
+          </div>
+        </div>
+
+        <div class="bubble-wrap us">
+          <div class="bubble">
+            "Hamri beti, jitana ladka kamata hai, utna kamati hai — toh dahej kis baat ka." 🙌
+            <span class="ts">Aane wala kal ✅ · 10:16 am</span>
+          </div>
+          <div class="av" style="background:var(--rose)">👩</div>
+        </div>
+
+        <p class="chat-prompt">Which would you like to hear?</p>
+
+        <div class="answer-row">
+          <div class="answer-badge">✅ Obviously, the second one.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ MISSION ════════════════════════════════════ -->
+<section class="mission-section" id="mission">
+  <div class="wrap mission-grid">
+
+    <div class="mission-stat reveal">
+      <div class="stat-num">10L+</div>
+      <div class="stat-sub">
+        <strong>Girls from Bihar</strong> we're committed<br>to bring into the organised workforce.
+      </div>
+    </div>
+
+    <div class="mission-quote reveal d2">
+      <p>If you can't go out for quality education and work,<br>
+      <strong>then it will come to you.</strong><br><br>
+      We have brought the best skill training programme to help you unlock <strong>work-from-home opportunities</strong> — without leaving your home, your family, or your roots.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ VALUE PROP ═════════════════════════════════ -->
+<section class="value-section">
+  <div class="wrap value-grid">
+
+    <div class="value-card reveal">
+      <p>SkillHer is a <strong>job-oriented training programme</strong> that prepares girls for <strong>Work From Home</strong> and online earning opportunities.</p>
+    </div>
+
+    <div class="features reveal d2">
+      <div class="feat">
+        <div class="feat-icon fi1">🎓</div>
+        <div>
+          <h4>World-class Skill Training</h4>
+          <p>Industry-relevant courses designed for real remote jobs — not just certificates.</p>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon fi2">🏠</div>
+        <div>
+          <h4>100% Work from Home</h4>
+          <p>No relocation. No commute. Earn from your home in Bihar.</p>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon fi3">💼</div>
+        <div>
+          <h4>Job-ready in Weeks</h4>
+          <p>Fast-track programmes that connect you directly to employers who hire remotely.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ JOBS ═══════════════════════════════════════ -->
+<section class="jobs-section" id="jobs">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="s-label">Work-from-home roles</p>
+      <h2 class="s-heading">Jobs You Can Do<br><span class="accent-line">From Home</span> 🏠</h2>
+      <p class="s-sub">Real, paying jobs — full-time or freelance, all doable remotely from Bihar.</p>
+    </div>
+    <div class="jobs-grid reveal d1">
+      <div class="job-pill"><div class="ji">🎯</div>Recruiter</div>
+      <div class="job-pill"><div class="ji">🎨</div>Graphic Designer</div>
+      <div class="job-pill"><div class="ji">🖥️</div>UI/UX Designer</div>
+      <div class="job-pill"><div class="ji">✍️</div>Copywriter</div>
+      <div class="job-pill"><div class="ji">📊</div>Market Researcher</div>
+      <div class="job-pill"><div class="ji">🎬</div>Video Editor</div>
+      <div class="job-pill"><div class="ji">📱</div>Social Media Manager</div>
+      <div class="job-pill"><div class="ji">💼</div>Virtual Assistant</div>
+      <div class="job-pill"><div class="ji">📞</div>Sales Executive</div>
+      <div class="job-pill"><div class="ji">🎧</div>Customer Support</div>
+      <div class="job-pill"><div class="ji">📚</div>Online Tutor</div>
+      <div class="job-pill"><div class="ji">🔍</div>SEO Executive</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORKSHOP ═══════════════════════════════════ -->
+<section class="workshop-section" id="workshop">
+  <div class="wrap">
+    <div class="workshop-card reveal">
+      <div class="w-badge">🚀 Free Workshop · Limited Seats</div>
+      <h2 class="w-title">How to Start Your<br>WFH Career</h2>
+      <p class="w-sub">Learn from industry mentors. Get a clear roadmap. Land your first remote job. Built for girls in Bihar who are ready to earn — from home.</p>
+      <div class="w-cta-row">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLo_CzzxpnbIwhJv5YMledU-VF7cwh0Ec4BtU9N_PwOWjtuA/viewform?usp=publish-editor"
+           target="_blank" rel="noopener" class="btn-workshop">Register Here →</a>
+        <div class="seats-note">
+          <div class="pulse-dot"></div>
+          Filling up fast — secure your seat now
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═════════════════════════════════════ -->
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-logo">Skill<em>Her</em></div>
+      <div class="footer-tag">Bihar's Work-From-Home Movement</div>
+    </div>
+    <div class="footer-div"></div>
+    <div class="footer-tag">Empowering 1 million girls to earn,<br>grow, and thrive — from home.</div>
+    <div class="footer-div"></div>
+    <div class="footer-copy">Made with ❤️ for every<br>beti of Bihar</div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
